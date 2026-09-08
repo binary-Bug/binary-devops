@@ -15,9 +15,6 @@ on:
           - eat-ui
           - eat-api
           - eat-db
-          - piggy-ui
-          - piggy-api
-          - piggy-db
       component_type:
         description: "Select component type"
         required: true
