@@ -1,15 +1,15 @@
-name: Fintrack Reminders Dispatcher
+name: 💲Fintrack Reminders Dispatcher
 
 on:
   schedule:
     # 03:30 UTC is exactly 09:00 AM IST
-    - cron: '30 3 * * *'
+    - cron: "30 3 * * *"
   workflow_dispatch:
 
 jobs:
   dispatch-reminders:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Run Reminder Script
         env:
