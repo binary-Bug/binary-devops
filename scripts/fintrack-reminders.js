@@ -22,7 +22,7 @@ async function run() {
     const totalTriggered = dueToday.length + upcoming.length + (dayOfWeek === 'Monday' ? overdue.length : 0);
 
     if (totalTriggered === 0) {
-      md += `> ✅ **All Clear:** No commitments due today, in 2 days, or pending weekly overdue digest.\n`;
+      md += `> ✅ **All Clear:** No commitments due today, in the next 2 days, or pending weekly overdue digest.\n`;
     } else {
       if (dueToday.length > 0) {
         md += `### 🚨 Due Today (0 Days)\n`;
@@ -34,7 +34,7 @@ async function run() {
       }
       
       if (upcoming.length > 0) {
-        md += `### ⏳ Upcoming (2 Days)\n`;
+        md += `### ⏳ Upcoming (Next 2 Days)\n`;
         md += `| Name | Amount (₹) | Due Date |\n|---|---|---|\n`;
         upcoming.forEach(i => {
           md += `| ${i.name} | ₹${i.cost || 0} | ${i.nextDue} |\n`;
@@ -118,7 +118,7 @@ async function run() {
 
       if (diff === 0) {
         dueToday.push(item);
-      } else if (diff === 2) {
+      } else if (diff > 0 && diff <= 2) {
         upcoming.push(item);
       } else if (diff < 0) {
         overdue.push(item);
@@ -129,7 +129,7 @@ async function run() {
     oneTimeItems.forEach(item => processItem(item, true));
 
     console.log(`Processed ${totalItemsProcessed} uncleared items.`);
-    console.log(`Due Today: ${dueToday.length}, Upcoming in 2 days: ${upcoming.length}, Overdue: ${overdue.length}`);
+    console.log(`Due Today: ${dueToday.length}, Upcoming next 2 days: ${upcoming.length}, Overdue: ${overdue.length}`);
 
     // Build the Telegram Message Payload
     let messageHtml = "";
@@ -143,7 +143,7 @@ async function run() {
     }
 
     if (upcoming.length > 0) {
-      messageHtml += `⏳ <b>UPCOMING (In 2 Days)</b>\n`;
+      messageHtml += `⏳ <b>Upcoming (Next 2 Days)</b>\n`;
       upcoming.forEach(i => {
         messageHtml += `• ${i.name} (₹${i.cost || 0})\n`;
       });
